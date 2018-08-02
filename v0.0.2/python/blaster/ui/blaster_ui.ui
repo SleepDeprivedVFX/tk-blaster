@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
-    <height>764</height>
+    <width>818</width>
+    <height>894</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -87,8 +87,8 @@ color: rgb(229, 229, 229);</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>586</width>
-        <height>597</height>
+        <width>792</width>
+        <height>690</height>
        </rect>
       </property>
       <attribute name="label">
@@ -97,11 +97,17 @@ color: rgb(229, 229, 229);</string>
       <widget class="QGroupBox" name="viewport_group">
        <property name="geometry">
         <rect>
-         <x>350</x>
+         <x>450</x>
          <y>10</y>
-         <width>231</width>
+         <width>341</width>
          <height>261</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>231</width>
+         <height>261</height>
+        </size>
        </property>
        <property name="title">
         <string>Viewport Options</string>
@@ -186,10 +192,16 @@ color: rgb(229, 229, 229);</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>320</y>
-         <width>311</width>
-         <height>271</height>
+         <y>400</y>
+         <width>421</width>
+         <height>281</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>421</width>
+         <height>281</height>
+        </size>
        </property>
        <property name="title">
         <string>Shotgun Connection</string>
@@ -202,9 +214,15 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>20</x>
           <y>40</y>
-          <width>281</width>
+          <width>381</width>
           <height>131</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>381</width>
+          <height>131</height>
+         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">border: none;
@@ -219,8 +237,8 @@ color: rgb(229, 229, 229);</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>261</width>
-           <height>101</height>
+           <width>351</width>
+           <height>105</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -260,7 +278,7 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>20</x>
           <y>180</y>
-          <width>231</width>
+          <width>341</width>
           <height>25</height>
          </rect>
         </property>
@@ -283,7 +301,7 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>20</x>
           <y>200</y>
-          <width>211</width>
+          <width>321</width>
           <height>25</height>
          </rect>
         </property>
@@ -306,7 +324,7 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>20</x>
           <y>230</y>
-          <width>271</width>
+          <width>381</width>
           <height>36</height>
          </rect>
         </property>
@@ -338,11 +356,17 @@ color: rgb(229, 229, 229);</string>
       <widget class="QGroupBox" name="beautify_grp">
        <property name="geometry">
         <rect>
-         <x>330</x>
-         <y>320</y>
-         <width>251</width>
-         <height>121</height>
+         <x>440</x>
+         <y>290</y>
+         <width>351</width>
+         <height>151</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>351</width>
+         <height>151</height>
+        </size>
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable Viewport beautifications like Motion Blur, AO, lights or others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -359,8 +383,8 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>231</width>
-          <height>91</height>
+          <width>331</width>
+          <height>123</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -460,9 +484,15 @@ color: rgb(229, 229, 229);</string>
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>331</width>
-         <height>301</height>
+         <width>421</width>
+         <height>371</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>421</width>
+         <height>371</height>
+        </size>
        </property>
        <property name="title">
         <string>Main Engine</string>
@@ -472,8 +502,8 @@ color: rgb(229, 229, 229);</string>
          <rect>
           <x>10</x>
           <y>30</y>
-          <width>312</width>
-          <height>261</height>
+          <width>401</width>
+          <height>321</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -628,44 +658,28 @@ color: rgb(229, 229, 229);</string>
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QLabel" name="quality_label">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
+              <widget class="QLabel" name="quality_label_2">
                <property name="text">
                 <string>Quality</string>
                </property>
                <property name="buddy">
-                <cstring>quality</cstring>
+                <cstring>quality_slider</cstring>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="quality_value">
-               <property name="minimumSize">
-                <size>
-                 <width>40</width>
-                 <height>0</height>
-                </size>
+              <widget class="QSlider" name="quality_slider">
+               <property name="toolTip">
+                <string>The quality setting for the renderer.  </string>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>40</width>
-                 <height>16777215</height>
-                </size>
+               <property name="statusTip">
+                <string>The quality setting for the renderer.  </string>
                </property>
-               <property name="text">
-                <string/>
+               <property name="whatsThis">
+                <string>The quality setting for the renderer.  </string>
                </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSlider" name="quality">
                <property name="styleSheet">
                 <string notr="true">QSlider::groove:horizontal {
 border: 1px solid #bbb;
@@ -728,13 +742,38 @@ border-radius: 4px;
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>100</number>
+                <number>10</number>
                </property>
                <property name="value">
-                <number>85</number>
+                <number>7</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="quality_value_2">
+               <property name="toolTip">
+                <string>The quality setting for the renderer.  </string>
+               </property>
+               <property name="statusTip">
+                <string>The quality setting for the renderer.  </string>
+               </property>
+               <property name="whatsThis">
+                <string>The quality setting for the renderer.  </string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>7</number>
                </property>
               </widget>
              </item>
@@ -889,14 +928,24 @@ color: rgb(229, 229, 229);</string>
         </layout>
        </widget>
       </widget>
+      <widget class="QGraphicsView" name="preview">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>450</y>
+         <width>350</width>
+         <height>230</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="deadline">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>586</width>
-        <height>597</height>
+        <width>792</width>
+        <height>690</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1126,19 +1175,6 @@ color: rgb(229, 229, 229);</string>
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
       <spacer name="horizontalSpacer_2">
@@ -1170,12 +1206,6 @@ color: rgb(229, 229, 229);</string>
     </layout>
    </item>
   </layout>
-  <zorder>Blaster_Options_Pages</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>beautify_grp</zorder>
-  <zorder>shotgun_connection</zorder>
-  <zorder>viewport_group</zorder>
-  <zorder>main_engine_grp</zorder>
  </widget>
  <tabstops>
   <tabstop>blaster_btn</tabstop>

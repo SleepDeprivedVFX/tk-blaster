@@ -133,8 +133,25 @@ class AppDialog(QtGui.QWidget):
         self.ui.asset_shot_label.setText(self.entity)
         self.ui.task_label.setText(self.task)
         self.set_value()
-        self.ui.quality.valueChanged.connect(self.set_value)
+        self.ui.quality_slider.valueChanged.connect(self.set_value)
 
+        # Build a still frame image of the viewport for the UI
+        temp_dir = os.environ['temp']
+        temp = temp_dir + '/viewport.jpg'
+
+        cmds.refresh(cv=True, fe="jpg", fn=temp)
+
+        preview = self.ui.preview
+        # preview.fitInView(440, 450, 350, 230)
+        scene = QtGui.QGraphicsScene()
+        pixmap = QtGui.QPixmap(temp)
+        pixmap = pixmap.scaledToWidth(300)
+        scene.addPixmap(pixmap)
+        # scene.setSceneRect(440, 450, 350, 230)
+        preview.setScene(scene)
+        preview.fitInView(440, 450, 350, 230)
+
+        # Find the active panel/camera
         active_view = cmds.getPanel(wf=True)
         active_cam = cmds.modelPanel(active_view, q=True, cam=True)
         act_cam_shape = cmds.listRelatives(active_cam, s=True)[0]
@@ -187,8 +204,8 @@ class AppDialog(QtGui.QWidget):
         pass
 
     def set_value(self):
-        val = self.ui.quality.value()
-        self.ui.quality_value.setText(str(val))
+        val = self.ui.quality_slider.value()
+        self.ui.quality_value_2.setValue(val)
 
     def wireframe(self):
         wf = self.ui.wireframe.isChecked()
