@@ -116,6 +116,21 @@ class AppDialog(QtGui.QWidget):
         self.username = find_username['login']
         self.email = find_username['email']
 
+        self.start_frame = cmds.playbackOptions(q=True, min=True)
+        self.end_frame = cmds.playbackOptions(q=True, max=True)
+        if self.entity_type == 'Shot':
+            filters = [
+                ['id', 'is', self.id]
+            ]
+            fields = [
+                'sg_head_in',
+                'sg_tail_out'
+            ]
+            self.frame_range = self.sg.shotgun.find_one('Shot', filters, fields)
+            if self.frame_range['sg_head_in'] and self.frame_range['sg_tail_out']:
+                self.start_frame = self.frame_range['sg_head_in']
+                self.end_frame = self.frame_range['sg_tail_out']
+
         self.viewport_settings = {}
         self.hardware_settings = {}
 
@@ -127,6 +142,8 @@ class AppDialog(QtGui.QWidget):
         self.ui.smooth_shading.clicked.connect(self.smooth_shaded)
         self.ui.sg_sync_btn.clicked.connect(self.sg_sync)
         self.ui.time_snyc_btn.clicked.connect(self.time_sync)
+        self.ui.start_frame.setValue(self.start_frame)
+        self.ui.end_frame.setValue(self.end_frame)
         self.ui.cameras.addItems(cmds.ls(type='camera'))
         self.ui.employee_label.setText(self.sg_user_name)
         self.ui.project_label.setText(self.project_name)
@@ -190,18 +207,23 @@ class AppDialog(QtGui.QWidget):
         # This doesn't work yet.  I have to get my head straight.  For whatever reason, I'm over thinking it.
         if self.entity_type == 'Shot':
             filters = [
-                ['Task', 'is', self.task],
-                [self.entity_type, 'is', 'shot']
+                ['id', 'is', self.id]
             ]
         fields = [
-            'head_in',
-            'tail_out'
+            'sg_head_in',
+            'sg_tail_out'
         ]
         range_data = self.sg.shotgun.find_one(self.entity_type, filters, fields)
-        print range_data
+        playblast_in = range_data['sg_head_in']
+        playblast_out = range_data['sg_tail_out']
+        self.ui.start_frame.setValue(playblast_in)
+        self.ui.end_frame.setValue(playblast_out)
 
     def time_sync(self):
-        pass
+        tl_start = cmds.playbackOptions(q=True, min=True)
+        tl_stop = cmds.playbackOptions(q=True, max=True)
+        self.ui.start_frame.setValue(tl_start)
+        self.ui.end_frame.setValue(tl_stop)
 
     def set_value(self):
         val = self.ui.quality_slider.value()
@@ -312,6 +334,50 @@ class AppDialog(QtGui.QWidget):
         else:
             print 'Select a proper viewport'
 
+    def return_current_settings(self, viewport=None):
+        if 'modelPanel' in viewport:
+            print 'viewport is correct'
+            cmds.modelEditor(viewport, e=True, nurbsCurves=self.viewport_settings['nurbsCurves'])
+            print 'nurbsCurves set to: %s' % self.viewport_settings['nurbsCurves']
+            cmds.modelEditor(viewport, e=True, nurbsSurfaces=self.viewport_settings['nurbsSurfaces'])
+            cmds.modelEditor(viewport, e=True, cv=self.viewport_settings['cv'])
+            cmds.modelEditor(viewport, e=True, hulls=self.viewport_settings['hulls'])
+            cmds.modelEditor(viewport, e=True, polymeshes=self.viewport_settings['polymeshes'])
+            cmds.modelEditor(viewport, e=True, hos=self.viewport_settings['hos'])
+            cmds.modelEditor(viewport, e=True, subdivSurfaces=self.viewport_settings['subdivSurfaces'])
+            cmds.modelEditor(viewport, e=True, planes=self.viewport_settings['planes'])
+            cmds.modelEditor(viewport, e=True, lights=self.viewport_settings['lights'])
+            print 'use fuckin lights: %s ' % self.viewport_settings['lights']
+            cmds.modelEditor(viewport, e=True, cameras=self.viewport_settings['cameras'])
+            cmds.modelEditor(viewport, e=True, imagePlane=self.viewport_settings['imagePlane'])
+            cmds.modelEditor(viewport, e=True, joints=self.viewport_settings['joints'])
+            cmds.modelEditor(viewport, e=True, ikHandles=self.viewport_settings['ikHandles'])
+            cmds.modelEditor(viewport, e=True, deformers=self.viewport_settings['deformers'])
+            cmds.modelEditor(viewport, e=True, dynamics=self.viewport_settings['dynamics'])
+            cmds.modelEditor(viewport, e=True, particleInstancers=self.viewport_settings['particleInstancers'])
+            cmds.modelEditor(viewport, e=True, fluids=self.viewport_settings['fluids'])
+            cmds.modelEditor(viewport, e=True, hairSystems=self.viewport_settings['hairSystems'])
+            cmds.modelEditor(viewport, e=True, follicles=self.viewport_settings['follicles'])
+            cmds.modelEditor(viewport, e=True, nCloths=self.viewport_settings['nCloths'])
+            cmds.modelEditor(viewport, e=True, nParticles=self.viewport_settings['nParticles'])
+            cmds.modelEditor(viewport, e=True, nRigids=self.viewport_settings['nRigids'])
+            cmds.modelEditor(viewport, e=True, dynamicConstraints=self.viewport_settings['dynamicConstraints'])
+            cmds.modelEditor(viewport, e=True, locators=self.viewport_settings['locators'])
+            cmds.modelEditor(viewport, e=True, dimensions=self.viewport_settings['dimensions'])
+            cmds.modelEditor(viewport, e=True, pivots=self.viewport_settings['pivots'])
+            cmds.modelEditor(viewport, e=True, handles=self.viewport_settings['handles'])
+            cmds.modelEditor(viewport, e=True, textures=self.viewport_settings['textures'])
+            cmds.modelEditor(viewport, e=True, strokes=self.viewport_settings['strokes'])
+            cmds.modelEditor(viewport, e=True, motionTrails=self.viewport_settings['motionTrails'])
+            cmds.modelEditor(viewport, e=True, pluginShapes=self.viewport_settings['pluginShapes'])
+            cmds.modelEditor(viewport, e=True, clipGhosts=self.viewport_settings['clipGhosts'])
+            cmds.modelEditor(viewport, e=True, greasePencils=self.viewport_settings['greasePencils'])
+
+            cmds.setAttr("hardwareRenderingGlobals.ssaoEnable", self.hardware_settings['ssaoEnable'])
+            cmds.setAttr("hardwareRenderingGlobals.ssaoAmount", self.hardware_settings['ssaoAmount'])
+            cmds.setAttr("hardwareRenderingGlobals.multiSampleEnable", self.hardware_settings['multiSampleEnable'])
+            cmds.setAttr("hardwareRenderingGlobals.motionBlurEnable", self.hardware_settings['motionBlurEnable'])
+
     def clear_current_settings(self):
         self.viewport_settings.clear()
         self.hardware_settings.clear()
@@ -367,6 +433,7 @@ class AppDialog(QtGui.QWidget):
             loaded_blaster = self.load_blaster(settings=settings_list, viewport=act_panel)
 
     def load_blaster(self, settings=None, viewport=None):
+        print viewport
         farm_string = ''
         if settings:
             # print settings
@@ -376,6 +443,7 @@ class AppDialog(QtGui.QWidget):
             # set as the active camera, then get the active panel.
             cmds.lookThru(cam)
             active_panel = cmds.getPanel(wf=True)
+            print active_panel
             if settings['render_farm']:
                 build_string = True
             else:
@@ -453,7 +521,7 @@ class AppDialog(QtGui.QWidget):
                 if build_string:
                     farm_string += 'setAttr "hardwareRenderGlobals.enableMotionBlur" 1;'
                 else:
-                    cmds.setAttr('hardwareRenderGlobals.motionBlurEnable', 1)
+                    cmds.setAttr('hardwareRenderGlobals.enableMotionBlur', 1)
             else:
                 if build_string:
                     farm_string += 'setAttr "hardwareRenderGlobals.enableMotionBlur" 0;'
@@ -488,11 +556,20 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.setAttr('hardwareRenderingGlobals.multiSampleEnable', 0)
 
+            # Viewport Cleanup
+            cmds.modelEditor(active_panel, e=True, ca=False)
+            cmds.modelEditor(active_panel, e=True, lt=False)
+            cmds.modelEditor(active_panel, e=True, j=False)
+            cmds.modelEditor(active_panel, e=True, imp=False)
+
             # Build playblast command.
             if build_string:
                 self.farm_blast(farm_string=farm_string, viewport=viewport)
             else:
                 self.local_blast(viewport=viewport)
+
+            # Return to the previous settings.
+            self.return_current_settings(viewport=active_panel)
         
     def farm_blast(self, farm_string=None, viewport=None):
         if farm_string:
@@ -501,5 +578,14 @@ class AppDialog(QtGui.QWidget):
 
     def local_blast(self, viewport=None):
         print 'Local Blast'
+        '''
+        This needs to be passed the save to filename, so it knows where to go.
+        It also needs the ability to post itself to Shotgun, and keep things within the system.
+        Needs to otherwise behave normally, however, contingencies will need to be made for Shotgun.  For instance,
+        I playblast out a JPG sequence locally, how does that get converted to MOV and uploaded to Shotgun?  There may
+        actually be a Shotgun-forgiving way to do this.
+        '''
         # self.reset_display(viewport=viewport)
+        cmds.playblast(format='image', c='jpg', sqt=0, cc=True, v=True, orn=False, os=True, fp=4, p=100, qlt=75,
+                       wh=[1920, 1080])
 

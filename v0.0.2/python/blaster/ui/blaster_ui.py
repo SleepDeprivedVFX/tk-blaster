@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\sleep\OneDrive\Documents\shotgun\mastertemplate\install\manual\tk-blaster\v0.0.2\python\blaster\ui\blaster_ui.ui'
 #
-# Created: Wed Aug 01 23:50:27 2018
+# Created: Sat Aug 04 13:57:36 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -349,17 +349,21 @@ class Ui_Form(object):
 "color: rgb(229, 229, 229);")
         self.groupBox_6.setObjectName("groupBox_6")
         self.layoutWidget6 = QtGui.QWidget(self.groupBox_6)
-        self.layoutWidget6.setGeometry(QtCore.QRect(10, 30, 281, 25))
+        self.layoutWidget6.setGeometry(QtCore.QRect(10, 30, 333, 25))
         self.layoutWidget6.setObjectName("layoutWidget6")
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget6)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.start_frame = QtGui.QSpinBox(self.layoutWidget6)
         self.start_frame.setStyleSheet("background-color: rgb(75, 75, 75);")
+        self.start_frame.setMinimum(-500000)
+        self.start_frame.setMaximum(5000000)
         self.start_frame.setObjectName("start_frame")
         self.horizontalLayout.addWidget(self.start_frame)
         self.end_frame = QtGui.QSpinBox(self.layoutWidget6)
         self.end_frame.setStyleSheet("background-color: rgb(75, 75, 75);")
+        self.end_frame.setMinimum(-500000)
+        self.end_frame.setMaximum(5000000)
         self.end_frame.setObjectName("end_frame")
         self.horizontalLayout.addWidget(self.end_frame)
         self.sg_sync_btn = QtGui.QPushButton(self.layoutWidget6)
@@ -372,11 +376,11 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.time_snyc_btn)
         self.verticalLayout_3.addWidget(self.groupBox_6)
         self.preview = QtGui.QGraphicsView(self.playblast)
-        self.preview.setGeometry(QtCore.QRect(440, 450, 351, 231))
+        self.preview.setGeometry(QtCore.QRect(440, 450, 350, 230))
         self.preview.setObjectName("preview")
         self.Blaster_Options_Pages.addItem(self.playblast, "")
         self.deadline = QtGui.QWidget()
-        self.deadline.setGeometry(QtCore.QRect(0, 0, 792, 690))
+        self.deadline.setGeometry(QtCore.QRect(0, 0, 100, 30))
         self.deadline.setObjectName("deadline")
         self.layoutWidget7 = QtGui.QWidget(self.deadline)
         self.layoutWidget7.setGeometry(QtCore.QRect(10, 15, 541, 366))

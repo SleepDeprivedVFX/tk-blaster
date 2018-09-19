@@ -870,7 +870,7 @@ color: rgb(229, 229, 229);</string>
              <rect>
               <x>10</x>
               <y>30</y>
-              <width>281</width>
+              <width>333</width>
               <height>25</height>
              </rect>
             </property>
@@ -883,6 +883,12 @@ color: rgb(229, 229, 229);</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(75, 75, 75);</string>
                </property>
+               <property name="minimum">
+                <number>-500000</number>
+               </property>
+               <property name="maximum">
+                <number>5000000</number>
+               </property>
               </widget>
              </item>
              <item>
@@ -892,6 +898,12 @@ color: rgb(229, 229, 229);</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(75, 75, 75);</string>
+               </property>
+               <property name="minimum">
+                <number>-500000</number>
+               </property>
+               <property name="maximum">
+                <number>5000000</number>
                </property>
               </widget>
              </item>
@@ -944,8 +956,8 @@ color: rgb(229, 229, 229);</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>792</width>
-        <height>690</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">

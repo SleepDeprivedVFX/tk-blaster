@@ -12,6 +12,18 @@
 
 # expected fields in the configuration file for this engine
 configuration:
+    deadline_connection:
+        type: str
+        default_value: http://deadline.asc-vfx.com
+        description: The URL to the Deadline API
+        allows_empty: False
+
+    deadline_port:
+        type: int
+        default_value: 8082
+        description: The port to the API
+        allows_empty: False
+
 
 # this app works in all engines - it does not contain 
 # any host application specific commands
@@ -21,8 +33,8 @@ supported_engines:
 requires_shotgun_fields:
         
 # More verbose description of this item 
-display_name: "Shotgun Pipeline Toolkit Starter"
-description: "Template App to quickly get up and running with the Shotgun Pipeline Toolkit."
+#display_name: "Shotgun Pipeline Toolkit Starter"
+#description: "Template App to quickly get up and running with the Shotgun Pipeline Toolkit."
 
 # Required minimum versions for this item to run
 requires_shotgun_version:
