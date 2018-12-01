@@ -15,6 +15,9 @@ import threading
 import platform
 import logging
 from maya import cmds
+from datetime import datetime
+from glob import glob
+import re
 
 # by importing QT from sgtk rather than directly, we ensure that
 # the code will be compatible with both PySide and PyQt.
@@ -99,9 +102,11 @@ class AppDialog(QtGui.QWidget):
         self.ctx = self._app.context
         self.project = self.ctx.project
         self.project_name = self.project['name']
+        self.project_id = self.project['id']
         self.sg_user_name = self.ctx.user['name']
         self.sg_user_id = self.ctx.user['id']
         self.task = self.ctx.task['name']
+        self.task_id = self.ctx.task['id']
         self.entity = self.ctx.entity['name']
         self.entity_type = self.ctx.entity['type']
         self.id = self.ctx.entity['id']
@@ -151,22 +156,6 @@ class AppDialog(QtGui.QWidget):
         self.ui.task_label.setText(self.task)
         self.set_value()
         self.ui.quality_slider.valueChanged.connect(self.set_value)
-
-        # Build a still frame image of the viewport for the UI
-        temp_dir = os.environ['temp']
-        temp = temp_dir + '/viewport.jpg'
-
-        cmds.refresh(cv=True, fe="jpg", fn=temp)
-
-        preview = self.ui.preview
-        # preview.fitInView(440, 450, 350, 230)
-        scene = QtGui.QGraphicsScene()
-        pixmap = QtGui.QPixmap(temp)
-        pixmap = pixmap.scaledToWidth(300)
-        scene.addPixmap(pixmap)
-        # scene.setSceneRect(440, 450, 350, 230)
-        preview.setScene(scene)
-        preview.fitInView(440, 450, 350, 230)
 
         # Find the active panel/camera
         active_view = cmds.getPanel(wf=True)
@@ -284,7 +273,10 @@ class AppDialog(QtGui.QWidget):
             pluginShapes = cmds.modelEditor(viewport, q=True, pluginShapes=True)
             clipGhosts = cmds.modelEditor(viewport, q=True, clipGhosts=True)
             greasePencils = cmds.modelEditor(viewport, q=True, greasePencils=True)
-
+            displayLights = cmds.modelEditor(viewport, q=True, dl=True)
+            displayAppearance = cmds.modelEditor(viewport, q=True, displayAppearance=True)
+            displayTextures = cmds.modelEditor(viewport, q=True, displayTextures=True)
+            hardwareFog = cmds.modelEditor(viewport,q=True, fogging=True)
             ssaoEnable = cmds.getAttr("hardwareRenderingGlobals.ssaoEnable")
             ssaoAmount = cmds.getAttr("hardwareRenderingGlobals.ssaoAmount")
             multiSampleEnable = cmds.getAttr("hardwareRenderingGlobals.multiSampleEnable")
@@ -323,6 +315,10 @@ class AppDialog(QtGui.QWidget):
             self.viewport_settings['pluginShapes'] = pluginShapes
             self.viewport_settings['clipGhosts'] = clipGhosts
             self.viewport_settings['greasePencils'] = greasePencils
+            self.viewport_settings['displayAppearance'] = displayAppearance
+            self.viewport_settings['displayTextures'] = displayTextures
+            self.viewport_settings['displayLights'] = displayLights
+            self.viewport_settings['fog'] = hardwareFog
 
             self.hardware_settings['ssaoEnable'] = ssaoEnable
             self.hardware_settings['ssaoAmount'] = ssaoAmount
@@ -337,6 +333,9 @@ class AppDialog(QtGui.QWidget):
     def return_current_settings(self, viewport=None):
         if 'modelPanel' in viewport:
             print 'viewport is correct'
+            print '-' * 120
+            print self.viewport_settings
+            print '=' * 120
             cmds.modelEditor(viewport, e=True, nurbsCurves=self.viewport_settings['nurbsCurves'])
             print 'nurbsCurves set to: %s' % self.viewport_settings['nurbsCurves']
             cmds.modelEditor(viewport, e=True, nurbsSurfaces=self.viewport_settings['nurbsSurfaces'])
@@ -372,6 +371,10 @@ class AppDialog(QtGui.QWidget):
             cmds.modelEditor(viewport, e=True, pluginShapes=self.viewport_settings['pluginShapes'])
             cmds.modelEditor(viewport, e=True, clipGhosts=self.viewport_settings['clipGhosts'])
             cmds.modelEditor(viewport, e=True, greasePencils=self.viewport_settings['greasePencils'])
+            cmds.modelEditor(viewport, e=True, displayAppearance=self.viewport_settings['displayAppearance'], ao=False)
+            cmds.modelEditor(viewport, e=True, dl=self.viewport_settings['displayLights'])
+            cmds.modelEditor(viewport, e=True, displayTextures=self.viewport_settings['displayTextures'])
+            cmds.modelEditor(viewport, e=True, fogging=self.viewport_settings['fog'])
 
             cmds.setAttr("hardwareRenderingGlobals.ssaoEnable", self.hardware_settings['ssaoEnable'])
             cmds.setAttr("hardwareRenderingGlobals.ssaoAmount", self.hardware_settings['ssaoAmount'])
@@ -425,6 +428,7 @@ class AppDialog(QtGui.QWidget):
             settings_list['keep_in_pipeline'] = self.ui.keep_in_pipeline.isChecked()
             settings_list['browse'] = self.ui.browse.text()
             settings_list['default_material'] = self.ui.default_material.isChecked()
+            settings_list['fog'] = self.ui.fog.isChecked()
 
             # Get Deadline Settings
             # Next I need to get the Deadline settings, but first I guess I need to make them
@@ -454,7 +458,8 @@ class AppDialog(QtGui.QWidget):
             # for key, val in settings.items():
                 # print '%s: %s' % (key, val)
 
-            # Smooth Shading
+            # SMOOTH SHADING
+            # -----------------------------------------------------------------------------------------------
             if settings['smooth_shading']:
                 if build_string:
                     farm_string += 'modelEditor -e -da "smoothShaded" -ao 0 %s;' % active_panel
@@ -466,7 +471,8 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.modelEditor(active_panel, e=True, da='wireframe', ao=False)
 
-            # Shadows
+            # SHADOWS
+            # -----------------------------------------------------------------------------------------------
             if settings['cast_shadows']:
                 if build_string:
                     farm_string += 'modelEditor -e -shadows 1 %s;' % active_panel
@@ -478,7 +484,8 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.modelEditor(active_panel, e=True, shadows=False)
 
-            # Default Material
+            # DEFAULT MATERIAL
+            # -----------------------------------------------------------------------------------------------
             if settings['textured']:
                 if build_string:
                     farm_string += 'modelEditor -e -displayTextures 1 %s;' % active_panel
@@ -490,7 +497,8 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.modelEditor(active_panel, e=True, displayTextures=False)
 
-            # Display Textures
+            # DISPLAY TEXTURES
+            # -----------------------------------------------------------------------------------------------
             if settings['default_material']:
                 if build_string:
                     farm_string += 'modelEditor -e -udm 1 %s;' % active_panel
@@ -504,7 +512,21 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.modelEditor(active_panel, e=True, udm=False)
 
-            # Lights
+            # HARDWARE FOG
+            # -----------------------------------------------------------------------------------------------
+            if settings['fog']:
+                if build_string:
+                    farm_string += 'modelEditor -e -fogging 1 %s;' % active_panel
+                else:
+                    cmds.modelEditor(active_panel, e=True, fogging=True)
+            else:
+                if build_string:
+                    farm_string += 'modelEditor -e -fogging 0 %s;' % active_panel
+                else:
+                    cmds.modelEditor(active_panel, e=True, fogging=False)
+
+            # LIGHTS
+            # -----------------------------------------------------------------------------------------------
             if settings['use_lights']:
                 if build_string:
                     farm_string += 'modelEditor -e -displayLights "all" %s;' % active_panel
@@ -516,19 +538,21 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.modelEditor(active_panel, e=True, displayLights='none')
 
-            # Motion Blur
+            # MOTION BLUR
+            # -----------------------------------------------------------------------------------------------
             if settings['motion_blur']:
                 if build_string:
-                    farm_string += 'setAttr "hardwareRenderGlobals.enableMotionBlur" 1;'
+                    farm_string += 'setAttr "hardwareRenderingGlobals.motionBlurEnable" 1;'
                 else:
-                    cmds.setAttr('hardwareRenderGlobals.enableMotionBlur', 1)
+                    cmds.setAttr('hardwareRenderingGlobals.motionBlurEnable', 1)
             else:
                 if build_string:
-                    farm_string += 'setAttr "hardwareRenderGlobals.enableMotionBlur" 0;'
+                    farm_string += 'setAttr "hardwareRenderingGlobals.motionBlurEnable" 0;'
                 else:
-                    cmds.setAttr('hardwareRenderGlobals.motionBlurEnable', 0)
+                    cmds.setAttr('hardwareRenderingGlobals.motionBlurEnable', 0)
 
-            # Ambient Occlusion
+            # AMBIENT OCCLUSION
+            # -----------------------------------------------------------------------------------------------
             if settings['ambient_occlusion']:
                 if build_string:
                     farm_string += 'setAttr "hardwareRenderingGlobals.ssaoEnable" 1;'
@@ -544,7 +568,8 @@ class AppDialog(QtGui.QWidget):
                     cmds.setAttr('hardwareRenderingGlobals.ssaoEnable', 0)
                     cmds.setAttr('hardwareRenderingGlobals.ssaoAmount', 3)
 
-            # Anti-Aliasing
+            # ANTI-ALIASING
+            # -----------------------------------------------------------------------------------------------
             if settings['anti_aliasing']:
                 if build_string:
                     farm_string += 'setAttr "hardwareRenderingGlobals.multiSampleEnable" 1;'
@@ -556,28 +581,114 @@ class AppDialog(QtGui.QWidget):
                 else:
                     cmds.setAttr('hardwareRenderingGlobals.multiSampleEnable', 0)
 
-            # Viewport Cleanup
+            # VIEWPORT CLEANUP
+            # -----------------------------------------------------------------------------------------------
             cmds.modelEditor(active_panel, e=True, ca=False)
             cmds.modelEditor(active_panel, e=True, lt=False)
             cmds.modelEditor(active_panel, e=True, j=False)
             cmds.modelEditor(active_panel, e=True, imp=False)
 
-            # Build playblast command.
+            # BUILD PLAYBLAST COMMAND
+            # -----------------------------------------------------------------------------------------------
             if build_string:
                 self.farm_blast(farm_string=farm_string, viewport=viewport)
             else:
                 self.local_blast(viewport=viewport)
+            print 'That Shit\'s over now.'
 
             # Return to the previous settings.
             self.return_current_settings(viewport=active_panel)
+            self.return_current_settings(viewport=viewport)
+            print 'And it\'s supposed to be reset!'
+            self.cancel()
         
     def farm_blast(self, farm_string=None, viewport=None):
         if farm_string:
-            print farm_string
+            print "FARM STRING: %s" % farm_string
             # self.reset_display(viewport=viewport)
+
+    def save_to_pipeline(self):
+        print 'Pipeline running'
+        # Get the path from the template
+        current_file = cmds.file(q=True, sn=True)
+        path = os.path.dirname(current_file)
+        path = path.replace('\\', '/')
+        print self.project_name
+        # rel_path = path.split(self.project_name.lower())[1]
+        rel_path = path.split('tasks')[0]
+        rel_path += 'publish/playblasts/maya/'
+        print rel_path
+        # Need to build the path name and park it in there.
+        base_name = os.path.basename(current_file)
+        split_basename = base_name.rsplit('.', 1)
+        print split_basename
+        root_name = split_basename[0]
+        ext = split_basename[1]
+        print root_name
+        print ext
+        version = root_name.rsplit('_', 1)[1]
+        rel_path += '%s/' % version
+        if not os.path.exists(rel_path):
+            os.makedirs(rel_path)
+        date_ = str(datetime.date(datetime.now()))
+        print date_
+        time_ = str(datetime.time(datetime.now()))
+        time_ = time_.replace(':', '-').rsplit('.')[0]
+        date_stamp = '%s-%s' % (date_, time_)
+        playblast_filename = '%s.%s' % (root_name, date_stamp)
+        print playblast_filename
+
+        file_type = self.ui.render_formats.currentText()
+        playblast_filename = '%s.%s' % (playblast_filename, file_type)
+        rel_path = os.path.join(rel_path, playblast_filename)
+        rel_path = rel_path.replace('\\', '/').strip('/')
+
+        if self.entity_type == 'Shot':
+            template = self.sg.templates['maya_shot_playblast']
+        elif self.entity_type == 'Asset':
+            template = self.sg.templates['maya_asset_playblast']
+        else:
+            template = None
+        if template:
+            settings = template.get_fields(rel_path)
+
+    def publish_version(self, playblast=None, filename=None, start_time=None):
+        print filename
+        print 'playblast: %s' % playblast
+        if playblast:
+            print 'Yo Dude.'
+            playblast_filename = os.path.basename(playblast)
+            playblast_filename = playblast_filename.rsplit('.', 1)[0]
+            if '#' in filename:
+                pattern = '#*'
+                find_hashes = re.search(pattern, filename)
+                print 'HASHES: %s' % find_hashes.group()
+                # filename = filename.replace('')
+            else:
+                print 'I didn\'t find a # in %s' % filename
+
+            data = {
+                'project': {'type': 'Project', 'id': self.project_id},
+                'description': 'Blaster File: %s' % playblast_filename,
+                'sg_status_list': 'rev',
+                'code': playblast_filename,
+                'entity': {'type': self.entity_type, 'id': self.id},
+                'sg_task': {'type': 'Task', 'id': self.task_id},
+                'sg_path_to_frames': playblast,
+                'user': {'type': 'HumanUser', 'id': self.sg_user_id}
+            }
+
+            new_version = self.sg.shotgun.create('Version', data)
+            print 'NEW VERSION: %s' % new_version
+            version_id = new_version['id']
+            if os.path.splitext(playblast)[1] == '.mov':
+                self.sg.shotgun.upload('Version', version_id, playblast, 'sg_uploaded_movie')
+            else:
+                self.sg.shotgun.upload_thumbnail('Version', version_id, filename)
 
     def local_blast(self, viewport=None):
         print 'Local Blast'
+        print viewport
         '''
         This needs to be passed the save to filename, so it knows where to go.
         It also needs the ability to post itself to Shotgun, and keep things within the system.
@@ -585,7 +696,47 @@ class AppDialog(QtGui.QWidget):
         I playblast out a JPG sequence locally, how does that get converted to MOV and uploaded to Shotgun?  There may
         actually be a Shotgun-forgiving way to do this.
         '''
+        # Check for local file name and if it's not there, leave it blank.
+        file_name = self.ui.browse.text()
+        pipeline = self.ui.keep_in_pipeline.isChecked()
+        shotgun_publish = self.ui.publish_sg_version.isChecked()
+        save_data = None
+        st = self.ui.start_frame.value()
+        et = self.ui.end_frame.value()
+
+        if pipeline:
+            save_to = self.save_to_pipeline()
+        else:
+            if file_name:
+                save_to = file_name
+            else:
+                save_to = None
+
         # self.reset_display(viewport=viewport)
-        cmds.playblast(format='image', c='jpg', sqt=0, cc=True, v=True, orn=False, os=True, fp=4, p=100, qlt=75,
-                       wh=[1920, 1080])
+        output_format = self.ui.render_formats.currentText()
+        if output_format == 'mov':
+            enocoding = self.ui.encoding.currentText()
+            output_format = 'qt'
+        else:
+            enocoding = output_format
+            output_format = 'image'
+        # Get Scale
+        scale = self.ui.scale.currentText()
+        scale = int(scale.strip('%'))
+
+        # Get Quality
+        quality = self.ui.quality_value_2.value()
+
+        # Show ornaments
+        ornaments = self.ui.show_ornaments.isChecked()
+
+        if save_to:
+            save_data = cmds.playblast(format=output_format, filename=save_to, sqt=0, cc=True, v=True, st=st,
+                                       et=et, orn=ornaments, os=True, fp=4, p=scale, qlt=quality, c=enocoding)
+        else:
+            save_data = cmds.playblast(format=output_format, sqt=0, cc=True, v=True, orn=ornaments, os=True, fp=4,
+                                       st=st, et=et, p=scale, qlt=quality, c=enocoding)
+
+        if shotgun_publish and save_data:
+            self.publish_version(playblast=save_to, filename=save_data, start_time=st)
 
