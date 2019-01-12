@@ -6,37 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>894</height>
+    <width>633</width>
+    <height>1056</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>604</width>
-    <height>0</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Blaster - Han Shot First</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(75, 75, 75);
 color: rgb(229, 229, 229);</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item alignment="Qt::AlignLeft">
       <widget class="QLabel" name="Logo">
        <property name="minimumSize">
         <size>
-         <width>100</width>
-         <height>50</height>
+         <width>125</width>
+         <height>60</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>100</width>
+         <width>150</width>
          <height>16777215</height>
         </size>
        </property>
@@ -68,620 +62,211 @@ image-align: 'left';</string>
     </layout>
    </item>
    <item>
-    <widget class="QToolBox" name="Blaster_Options_Pages">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>651</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-     </property>
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
-     <widget class="QWidget" name="playblast">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>792</width>
-        <height>690</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>Blaster Options</string>
-      </attribute>
-      <widget class="QGroupBox" name="viewport_group">
-       <property name="geometry">
-        <rect>
-         <x>450</x>
-         <y>10</y>
-         <width>341</width>
-         <height>261</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>231</width>
-         <height>261</height>
-        </size>
-       </property>
-       <property name="title">
-        <string>Viewport Options</string>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>194</width>
-          <height>197</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QCheckBox" name="show_ornaments">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Window Ornaments include heads-up displays, like poly count, or focal length, frame borders like the film gate, title safe/action safe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Show Ornaments</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="backface_culling">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Backface Culling</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="image_planes">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Show Image Planes</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="two_sided_lighting">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Two Sided Lighting</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="match_render_output">
-           <property name="text">
-            <string>Match Render Output</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="default_material">
-           <property name="text">
-            <string>Default Material</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="shotgun_connection">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>400</y>
-         <width>421</width>
-         <height>281</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>421</width>
-         <height>281</height>
-        </size>
-       </property>
-       <property name="title">
-        <string>Shotgun Connection</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <widget class="QGroupBox" name="current_context_grp">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>381</width>
-          <height>131</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>381</width>
-          <height>131</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border: none;
-background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-        </property>
-        <property name="title">
-         <string>Current Context</string>
-        </property>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>351</width>
-           <height>105</height>
-          </rect>
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="main_engine_grp">
+         <property name="minimumSize">
+          <size>
+           <width>371</width>
+           <height>291</height>
+          </size>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <widget class="QLabel" name="employee_label">
-            <property name="text">
-             <string>Employee</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="project_label">
-            <property name="text">
-             <string>Project</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="asset_shot_label">
-            <property name="text">
-             <string>Asset - Shot</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="task_label">
-            <property name="text">
-             <string>Task</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-       <widget class="QCheckBox" name="publish_sg_version">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>180</y>
-          <width>341</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Publish to Shotgun will automatically create a version for the specific asset, shot or task.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-        </property>
-        <property name="text">
-         <string>Pubish Shotgun Version (Recommended)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="keep_in_pipeline">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>200</y>
-          <width>321</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Keep it in the pipeline is the recommended setting, because it will automatically put the playblast in the correct shot folder on the server, based on Shotgun's configuration.  Turning this feature off will require that you choose a folder to render the playblast to.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-        </property>
-        <property name="text">
-         <string>Keep it in the pipeline (Recommended)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>230</y>
-          <width>381</width>
-          <height>36</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLineEdit" name="browse">
-           <property name="toolTip">
-            <string>Where to save the playblast if it's not going to the correct folder on the server</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit { color: rgb(229, 229, 229); border: none }
-</string>
-           </property>
-           <property name="placeholderText">
-            <string>Non-Pipeline Save Location</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="browse_btn">
-           <property name="text">
-            <string>Browse...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="beautify_grp">
-       <property name="geometry">
-        <rect>
-         <x>440</x>
-         <y>290</y>
-         <width>351</width>
-         <height>151</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>351</width>
-         <height>151</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable Viewport beautifications like Motion Blur, AO, lights or others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-       </property>
-       <property name="title">
-        <string>Beautify</string>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>331</width>
-          <height>123</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="title">
+          <string>Main Engine</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>371</width>
+            <height>256</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QCheckBox" name="use_lights">
-             <property name="text">
-              <string>Use Lights</string>
+            <widget class="QGroupBox" name="render_power">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
              </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="cast_shadows">
-             <property name="text">
-              <string>Cast Shadows</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="ambient_occlusion">
-             <property name="text">
-              <string>Ambient Occlusion</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="motion_blur">
-             <property name="text">
-              <string>Motion Blur</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QCheckBox" name="textured">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked, Hardware texturing is turned on and Default Material is turned off.  If unchecked, Default Material will be set, but Hardware Texturing will be left in whatever state it currently is in.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Render Power decides whether your playblast will be done locally (which will slow down your machine), or on the farm, which (in cases of long playblast times) will speed up your playblast time considerably.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
-             <property name="text">
-              <string>Textured</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="smooth_shading">
-             <property name="text">
-              <string>Smooth Shading</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="wireframe">
-             <property name="text">
-              <string>Wireframe</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="anti_aliasing">
-             <property name="text">
-              <string>Anti-Aliasing</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="main_engine_grp">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>421</width>
-         <height>371</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>421</width>
-         <height>371</height>
-        </size>
-       </property>
-       <property name="title">
-        <string>Main Engine</string>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>30</y>
-          <width>401</width>
-          <height>321</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QGroupBox" name="render_power">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Render Power decides whether your playblast will be done locally (which will slow down your machine), or on the farm, which (in cases of long playblast times) will speed up your playblast time considerably.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">border: none;
+             <property name="styleSheet">
+              <string notr="true">border: none;
 background-color: rgb(75, 75, 75);
 color: rgb(229, 229, 229);</string>
-           </property>
-           <property name="title">
-            <string>Render Power</string>
-           </property>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>30</y>
-              <width>281</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QRadioButton" name="farm">
-               <property name="text">
-                <string>Farm</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="local">
-               <property name="text">
-                <string>Local</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="cameras_label">
-               <property name="text">
-                <string>Cameras</string>
-               </property>
-               <property name="buddy">
-                <cstring>cameras</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="cameras">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the Camera to playblast &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
-               </property>
-               <property name="duplicatesEnabled">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
+             </property>
+             <property name="title">
+              <string>Render Power</string>
+             </property>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>30</y>
+                <width>281</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QRadioButton" name="farm">
+                 <property name="text">
+                  <string>Farm</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="local">
+                 <property name="text">
+                  <string>Local</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QLabel" name="render_formats_label">
-               <property name="text">
-                <string>Render Formats</string>
-               </property>
-               <property name="buddy">
-                <cstring>render_formats</cstring>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLabel" name="cameras_label">
+                 <property name="text">
+                  <string>Cameras</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>cameras</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="cameras">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the Camera to playblast &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                 </property>
+                 <property name="duplicatesEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QComboBox" name="render_formats">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <property name="text">
-                 <string>jpg</string>
-                </property>
+                <widget class="QLabel" name="render_formats_label">
+                 <property name="text">
+                  <string>Render Formats</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>render_formats</cstring>
+                 </property>
+                </widget>
                </item>
                <item>
-                <property name="text">
-                 <string>png</string>
-                </property>
+                <widget class="QComboBox" name="render_formats">
+                 <item>
+                  <property name="text">
+                   <string>jpg</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>png</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>tif</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>mov</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text">
-                 <string>tif</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>mov</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
-             <item>
-              <widget class="QLabel" name="encoding_label">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Encoding</string>
-               </property>
-               <property name="buddy">
-                <cstring>encoding</cstring>
-               </property>
-              </widget>
+              </layout>
              </item>
              <item>
-              <widget class="QComboBox" name="encoding">
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
                <item>
-                <property name="text">
-                 <string>h.264</string>
-                </property>
+                <widget class="QLabel" name="encoding_label">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Encoding</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>encoding</cstring>
+                 </property>
+                </widget>
                </item>
                <item>
-                <property name="text">
-                 <string>MPEG-4</string>
-                </property>
+                <widget class="QComboBox" name="encoding">
+                 <item>
+                  <property name="text">
+                   <string>h.264</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>MPEG-4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Animation</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <property name="text">
-                 <string>Animation</string>
-                </property>
-               </item>
-              </widget>
+              </layout>
              </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QLabel" name="quality_label_2">
-               <property name="text">
-                <string>Quality</string>
-               </property>
-               <property name="buddy">
-                <cstring>quality_slider</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSlider" name="quality_slider">
-               <property name="toolTip">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="statusTip">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="whatsThis">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QSlider::groove:horizontal {
+              <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <item>
+                <widget class="QLabel" name="quality_label_2">
+                 <property name="text">
+                  <string>Quality</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>quality_slider</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="quality_slider">
+                 <property name="toolTip">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="statusTip">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="whatsThis">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSlider::groove:horizontal {
 border: 1px solid #bbb;
 background: white;
 height: 10px;
@@ -690,9 +275,9 @@ border-radius: 4px;
 
 QSlider::sub-page:horizontal {
 background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
-    stop: 0 #4b4b4b, stop: 1 #fff);
+    stop: 0 #e09500, stop: 1 #fff);
 background: qlineargradient(x1: 0, y1:0.25, x2: 1, y2: 1.25,
-    stop: 0 #4b4b4b, stop: 1 #fff);
+    stop: 0 #e09500, stop: 1 #fff);
 border: 1px solid #777;
 height: 10px;
 border-radius: 4px;
@@ -737,453 +322,851 @@ background: #eee;
 border: 1px solid #aaa;
 border-radius: 4px;
 }</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>10</number>
-               </property>
-               <property name="value">
-                <number>7</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-              </widget>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10</number>
+                 </property>
+                 <property name="value">
+                  <number>7</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksBelow</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="quality_value_2">
+                 <property name="toolTip">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="statusTip">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="whatsThis">
+                  <string>The quality setting for the renderer.  </string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10</number>
+                 </property>
+                 <property name="value">
+                  <number>7</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QSpinBox" name="quality_value_2">
-               <property name="toolTip">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="statusTip">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="whatsThis">
-                <string>The quality setting for the renderer.  </string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>10</number>
-               </property>
-               <property name="value">
-                <number>7</number>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLabel" name="scale_label">
+                 <property name="text">
+                  <string>Scale</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>scale</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="scale">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Scale the output down&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="currentIndex">
+                  <number>4</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>10%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>25%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>50%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>75%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>100%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>110%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>130%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>150%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>175%</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>200%</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="styleSheet">
+              <string notr="true">border: none;
+background-color: rgb(75, 75, 75);
+color: rgb(229, 229, 229);</string>
+             </property>
+             <property name="title">
+              <string>Time Frame</string>
+             </property>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>30</y>
+                <width>333</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QSpinBox" name="start_frame">
+                 <property name="toolTip">
+                  <string>Start Frame</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(75, 75, 75);</string>
+                 </property>
+                 <property name="minimum">
+                  <number>-500000</number>
+                 </property>
+                 <property name="maximum">
+                  <number>5000000</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="end_frame">
+                 <property name="toolTip">
+                  <string>End Frame</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(75, 75, 75);</string>
+                 </property>
+                 <property name="minimum">
+                  <number>-500000</number>
+                 </property>
+                 <property name="maximum">
+                  <number>5000000</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="sg_sync_btn">
+                 <property name="toolTip">
+                  <string>Sync Frame Range to Shotgun</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(75, 75, 75);</string>
+                 </property>
+                 <property name="text">
+                  <string>SG Sync</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="time_snyc_btn">
+                 <property name="toolTip">
+                  <string>Sync to Timeline</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(75, 75, 75);</string>
+                 </property>
+                 <property name="text">
+                  <string>Time Sync</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="shotgun_connection">
+         <property name="minimumSize">
+          <size>
+           <width>391</width>
+           <height>241</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Shotgun Connection</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <widget class="QGroupBox" name="current_context_grp">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>371</width>
+            <height>201</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>351</width>
+            <height>181</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;
+background-color: rgb(75, 75, 75);
+color: rgb(229, 229, 229);</string>
+          </property>
+          <property name="title">
+           <string>Current Context</string>
+          </property>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>361</width>
+             <height>105</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QLabel" name="employee_label">
+              <property name="text">
+               <string>Employee</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="project_label">
+              <property name="text">
+               <string>Project</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="asset_shot_label">
+              <property name="text">
+               <string>Asset - Shot</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="task_label">
+              <property name="text">
+               <string>Task</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QCheckBox" name="publish_sg_version">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>100</y>
+             <width>341</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Publish to Shotgun will automatically create a version for the specific asset, shot or task.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(229, 229, 229);</string>
+           </property>
+           <property name="text">
+            <string>Pubish Shotgun Version (Recommended)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="keep_in_pipeline">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>120</y>
+             <width>341</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Keep it in the pipeline is the recommended setting, because it will automatically put the playblast in the correct shot folder on the server, based on Shotgun's configuration.  Turning this feature off will require that you choose a folder to render the playblast to.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(229, 229, 229);</string>
+           </property>
+           <property name="text">
+            <string>Keep it in the pipeline (Recommended)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>361</width>
+             <height>36</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLineEdit" name="browse">
+              <property name="toolTip">
+               <string>Where to save the playblast if it's not going to the correct folder on the server</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit { color: rgb(229, 229, 229); border: none }
+</string>
+              </property>
+              <property name="placeholderText">
+               <string>Non-Pipeline Save Location</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="browse_btn">
+              <property name="text">
+               <string>Browse...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QGroupBox" name="beautify_grp">
+         <property name="minimumSize">
+          <size>
+           <width>181</width>
+           <height>311</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable Viewport beautifications like Motion Blur, AO, lights or others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(75, 75, 75);
+color: rgb(229, 229, 229);</string>
+         </property>
+         <property name="title">
+          <string>Beautify</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>170</width>
+            <height>283</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QLabel" name="scale_label">
+              <widget class="QCheckBox" name="use_lights">
                <property name="text">
-                <string>Scale</string>
+                <string>Use Lights</string>
                </property>
-               <property name="buddy">
-                <cstring>scale</cstring>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="scale">
+              <widget class="QCheckBox" name="cast_shadows">
+               <property name="text">
+                <string>Cast Shadows</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="ambient_occlusion">
+               <property name="text">
+                <string>Ambient Occlusion</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="motion_blur">
+               <property name="text">
+                <string>Motion Blur</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="anti_aliasing">
+               <property name="text">
+                <string>Anti-Aliasing</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="wireframe">
+               <property name="text">
+                <string>Wireframe</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="smooth_shading">
+               <property name="text">
+                <string>Smooth Shading</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="textured">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Scale the output down&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked, Hardware texturing is turned on and Default Material is turned off.  If unchecked, Default Material will be set, but Hardware Texturing will be left in whatever state it currently is in.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="currentIndex">
-                <number>4</number>
+               <property name="text">
+                <string>Textured</string>
                </property>
-               <item>
-                <property name="text">
-                 <string>10%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>25%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>50%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>75%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>100%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>110%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>130%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>150%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>175%</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>200%</string>
-                </property>
-               </item>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="fog">
+               <property name="text">
+                <string>Hardware Fog</string>
+               </property>
               </widget>
              </item>
             </layout>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_6">
-           <property name="styleSheet">
-            <string notr="true">border: none;
-background-color: rgb(75, 75, 75);
-color: rgb(229, 229, 229);</string>
-           </property>
-           <property name="title">
-            <string>Time Frame</string>
-           </property>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>30</y>
-              <width>333</width>
-              <height>25</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QSpinBox" name="start_frame">
-               <property name="toolTip">
-                <string>Start Frame</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(75, 75, 75);</string>
-               </property>
-               <property name="minimum">
-                <number>-500000</number>
-               </property>
-               <property name="maximum">
-                <number>5000000</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="end_frame">
-               <property name="toolTip">
-                <string>End Frame</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(75, 75, 75);</string>
-               </property>
-               <property name="minimum">
-                <number>-500000</number>
-               </property>
-               <property name="maximum">
-                <number>5000000</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="sg_sync_btn">
-               <property name="toolTip">
-                <string>Sync Frame Range to Shotgun</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(75, 75, 75);</string>
-               </property>
-               <property name="text">
-                <string>SG Sync</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="time_snyc_btn">
-               <property name="toolTip">
-                <string>Sync to Timeline</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(75, 75, 75);</string>
-               </property>
-               <property name="text">
-                <string>Time Sync</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGraphicsView" name="preview">
-       <property name="geometry">
-        <rect>
-         <x>440</x>
-         <y>450</y>
-         <width>350</width>
-         <height>230</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="deadline">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>Deadline Options</string>
-      </attribute>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>15</y>
-         <width>541</width>
-         <height>366</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_19">
-          <item>
-           <widget class="QLabel" name="job_name_label">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Job Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="job_name"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_18">
-          <item>
-           <widget class="QLabel" name="user_label">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>User</string>
-            </property>
-            <property name="buddy">
-             <cstring>user</cstring>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="user">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
-          <item>
-           <widget class="QLabel" name="priority_label">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Priority</string>
-            </property>
-            <property name="buddy">
-             <cstring>priority</cstring>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="priority">
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>50</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_14">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_20">
-          <item>
-           <widget class="QLabel" name="pool_label">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Pool</string>
-            </property>
-            <property name="buddy">
-             <cstring>pool</cstring>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="pool"/>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_15">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_21">
-          <item>
-           <widget class="QLabel" name="machine_list_label">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Machine List</string>
-            </property>
-            <property name="buddy">
-             <cstring>machine_list</cstring>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="machine_list"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_16">
-          <item>
-           <widget class="QLabel" name="frames_per_machine_label">
-            <property name="text">
-             <string>frames per machine</string>
-            </property>
-            <property name="buddy">
-             <cstring>frames_per_machine</cstring>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="frames_per_machine">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>10</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_13">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="blacklist">
-          <property name="text">
-           <string>Machine List is a blacklist</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
          </widget>
-        </item>
-       </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="viewport_group">
+         <property name="minimumSize">
+          <size>
+           <width>201</width>
+           <height>211</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Viewport Options</string>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>185</width>
+            <height>185</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QCheckBox" name="show_ornaments">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Window Ornaments include heads-up displays, like poly count, or focal length, frame borders like the film gate, title safe/action safe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Show Ornaments</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="backface_culling">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Backface Culling</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="image_planes">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Show Image Planes</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="two_sided_lighting">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Two Sided Lighting</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="match_render_output">
+             <property name="text">
+              <string>Match Render Output</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="default_material">
+             <property name="text">
+              <string>Default Material</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="DeadlineHeader">
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Deadline Options</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <item>
+        <widget class="QLabel" name="job_name_label">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Job Name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="job_name"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_18">
+       <item>
+        <widget class="QLabel" name="user_label">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>User</string>
+         </property>
+         <property name="buddy">
+          <cstring>user</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="user">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QLabel" name="priority_label">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Priority</string>
+         </property>
+         <property name="buddy">
+          <cstring>priority</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="priority">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>50</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_14">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_20">
+       <item>
+        <widget class="QLabel" name="pool_label">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Pool</string>
+         </property>
+         <property name="buddy">
+          <cstring>pool</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="pool"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_15">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_21">
+       <item>
+        <widget class="QLabel" name="machine_list_label">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Machine List</string>
+         </property>
+         <property name="buddy">
+          <cstring>machine_list</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="machine_list"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QLabel" name="frames_per_machine_label">
+         <property name="text">
+          <string>frames per machine</string>
+         </property>
+         <property name="buddy">
+          <cstring>frames_per_machine</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="frames_per_machine">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>10</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_13">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="blacklist">
+       <property name="text">
+        <string>Machine List is a blacklist</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
-     </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="progress_label">
+     <property name="text">
+      <string>Progress</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="blaster_progress">
+     <property name="styleSheet">
+      <string notr="true">QProgressBar {
+    text-align: center;
+	color: rgb(90, 90, 90);
+}
+
+QProgressBar::chunk {
+    background-color: rgb(224, 149, 0);
+    width: 20px;
+	margin: 1px;
+}</string>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
     </widget>
    </item>
    <item>
@@ -1213,6 +1196,9 @@ color: rgb(229, 229, 229);</string>
        <property name="text">
         <string>Blast It</string>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -1241,13 +1227,9 @@ color: rgb(229, 229, 229);</string>
   <tabstop>match_render_output</tabstop>
   <tabstop>default_material</tabstop>
   <tabstop>use_lights</tabstop>
-  <tabstop>textured</tabstop>
   <tabstop>cast_shadows</tabstop>
-  <tabstop>smooth_shading</tabstop>
   <tabstop>ambient_occlusion</tabstop>
-  <tabstop>wireframe</tabstop>
   <tabstop>motion_blur</tabstop>
-  <tabstop>anti_aliasing</tabstop>
   <tabstop>shotgun_connection</tabstop>
   <tabstop>start_frame</tabstop>
   <tabstop>end_frame</tabstop>
