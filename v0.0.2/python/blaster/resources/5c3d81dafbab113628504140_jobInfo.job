@@ -1,0 +1,14 @@
+Name=command_test
+UserName=adamb
+Region=
+Frames=1001-1064
+ChunkSize=65
+Group=draftgrp
+Pool=playblasts
+Priority=95
+Blacklist=
+ScheduledStartDateTime=14/01/2019 22:46
+OverrideTaskExtraInfoNames=False
+MachineName=ASC-Benson
+Plugin=CommandLine
+EventOptIns=

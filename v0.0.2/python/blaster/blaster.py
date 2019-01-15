@@ -34,7 +34,7 @@ logger = sgtk.platform.get_logger(__name__)
 osSystem = platform.system()
 
 if osSystem == 'Windows':
-    base = '//hal'
+    base = '//skynet'
     env_user = 'USERNAME'
     computername = 'COMPUTERNAME'
 else:
@@ -51,6 +51,10 @@ if osSystem == 'Windows':
 else:
     python_path = '/Volumes/Applications/Python27/Lib/site-packages'
 sys.path.append(python_path)
+
+# Set group from Deadline groups & options
+group_name = 'draftgrp'
+executable = r'C:\Program Files\Autodesk\Maya%s\bin\mayabatch.exe' % cmds.about(q=True, v=True)
 
 from Deadline import DeadlineConnect as connect
 dl = connect.DeadlineCon('http://deadline.asc-vfx.com', 8082)
@@ -160,6 +164,21 @@ class AppDialog(QtGui.QWidget):
         self.ui.progress_label.setText('Blaster Progress')
 
         # ------------------ Deadline -------------------------------
+        # Connect to Deadline
+        os_sys = platform.system()
+        self.computer = platform.node()
+        if os_sys == 'Windows':
+            # This should go into the paths.yml perhaps.  Setup a series of universal paths, and then call them here.
+            python_path = 'C:\\Python27\\Lib\\site-packages'
+        else:
+            python_path = '/Volumes/Applications/Python27/Lib/site-packages'
+        sys.path.append(python_path)
+        from Deadline import DeadlineConnect as connect
+        deadline_connection = self._app.get_setting('deadline_connection')
+        deadline_port = int(self._app.get_setting('deadline_port'))
+        self.dl = connect.DeadlineCon(deadline_connection, deadline_port)
+        logger.debug('Deadline Connection made!')
+
         file_path = cmds.file(q=True, sn=True)
         file_name = os.path.basename(file_path)
         base_name, ext = os.path.splitext(file_name)
@@ -696,6 +715,19 @@ class AppDialog(QtGui.QWidget):
             time.sleep(2)
             self.cancel()
 
+    def create_draft_version(self, version_name=None, timestamp=None):
+        version_title = '%s_%s' % (version_name, timestamp)
+        data = {
+            'project': {'type': 'Project', 'id': self.project_id},
+            'description': 'Blaster Playblast File',
+            'sg_status_list': 'rev',
+            'code': version_title,
+            'entity': {'type': self.entity_type, 'id': self.id},
+            'sg_task': {'type': 'Task', 'id': self.task_id}
+        }
+        version_data = self.sg.shotgun.create('Version', data)
+        return version_data
+
     def submit_to_deadline(self, string=None):
         logger.info('Submitting in Deadline...')
         self.ui.blaster_progress.setValue(70)
@@ -708,6 +740,8 @@ class AppDialog(QtGui.QWidget):
         machine_list = self.ui.machine_list.text()
         frames_per_machine = int(self.ui.frames_per_machine.text())
         blacklist = self.ui.blacklist.isChecked()
+        start = self.ui.start_frame.value()
+        end = self.ui.end_frame.value()
 
         # Pasted from here
         # ----------------------------------------------------------------------------
@@ -720,218 +754,218 @@ class AppDialog(QtGui.QWidget):
         file_name = cmds.file(q=True, sn=True)
         file_path = os.path.dirname(file_name)
 
-        # I probably need to get the playblast path from Shotgun, if I haven't already.
-        # Some of the things below may be building the string... which I already have...
-        # First up!  So, if it's an asset, I need maya_asset_playblast otherwise, I need maya_shot_playblast
-        path_settings = self.sg.templates['maya_asset_work']
-        task = path_settings.get_fields(file_name)
+        # Setting date and time
+        logger.debug('Setting Job date and time...')
+        h = datetime.now().hour
+        m = datetime.now().minute
+        s = datetime.now().second
+        h = '%02d' % h
+        m = '%02d' % m
+        s = '%02d' % s
+        D = datetime.now().day
+        D = '%02d' % D
+        M = datetime.now().month
+        M = '%02d' % M
+        Y = datetime.now().year
+        d = '%s-%s-%s' % (D, M, Y)
+        d_flat = str(d).replace('-', '')
+
+        timestamp = '%s-%s-%s-%s-%s-%s' % (Y, M, D, h, m, s)
+
+        # I need to get the asset or shot path from maya! Not the playblast path.
+        # Then I can extract values from that, and use it to POPULATE the playvblast path.
+        if self.entity_type == 'Asset':
+            path_settings = self.sg.templates['maya_asset_work']
+            output_settings = self.sg.templates['maya_asset_playblast']
+        elif self.entity_type == 'Shot':
+            path_settings = self.sg.templates['maya_shot_work']
+            output_settings = self.sg.templates['maya_shot_playblast']
+        else:
+            path_settings = None
+            return False
+        template_settings = path_settings.get_fields(file_name)
+        template_settings['timestamp'] = timestamp
+        template_settings['file_ext'] = self.ui.render_formats.currentText()
+        print 'TEMPATE SETTINGS: %s' % template_settings
+        # template_settings - Asset:
+        #  {
+        #   'version': 2,
+        # 'sg_asset_type': u'Character',
+        # 'Asset': u'AnimTeleporter',
+        # 'task_name': u'Model',
+        # 'extension': u'mb'
+        # }
+
+        # template_settings - Shot:
+        # {
+        # 'Shot': u'TST101_010_0010',
+        # 'extension': u'mb',
+        # 'Sequence': u'TST101_010',
+        # 'version': 3,
+        # 'task_name': u'Animation',
+        # 'Episode': u'101'}
+
         base_name = os.path.basename(file_name).rsplit('.', 1)[0]
 
         # Do I need the project?
-        project = self.project.lower()
+        print 'TESTING: %s' % self.project_name
+        project = self.project_name.lower()
 
-        # This "assets" call is a no go.  I think I can get this data elsewhere if I need it.
-        proj_root = '%s%s/assets/%s/%s' % (file_path.split(project)[0], project, task['sg_asset_type'], task['Asset'])
-        # {'version': 67, 'sg_asset_type': u'Character', 'Asset': u'Thing3', 'task_name': u'turntable.main',
-        #  'extension': u'mb'}
-
-        # This will need a re-fit.
-        output_path = '%s/publish/renders/' % proj_root
-        version = task['version']
+        output_path = output_settings.apply_fields(template_settings)
+        version = template_settings['version']
 
         t = 0
 
         # I know I won't need layers, but what's in here that I DO need?
-        for layer in layers:
-            # lyr = str(layer)
-            job_info = ''
-            plugin_info = ''
-            job_path = os.environ['TEMP'] + '\\_job_submissions'
-            logger.debug('Checking job submission path...')
-            if not os.path.exists(job_path):
-                os.mkdir(job_path)
-            logger.debug('Setting Job date and time...')
-            h = datetime.now().hour
-            m = datetime.now().minute
-            s = datetime.now().second
-            h = '%02d' % h
-            m = '%02d' % m
-            s = '%02d' % s
-            D = datetime.now().day
-            D = '%02d' % D
-            M = datetime.now().month
-            M = '%02d' % M
-            Y = datetime.now().year
-            d = '%s-%s-%s' % (D, M, Y)
-            d_flat = str(d).replace('-', '')
-            logger.debug('Creating job and plugin files...')
-            ji_filename = '%s_%s%s%s%s%s_jobInfo.job' % (base_name, d_flat, h, m, s, t)
-            ji_filepath = job_path + '\\' + ji_filename
-            pi_filename = '%s_%s%s%s%s%s_pluginInfo.job' % (base_name, d_flat, h, m, s, t)
-            pi_filepath = job_path + '\\' + pi_filename
-            job_info_file = open(ji_filepath, 'w+')
-            plugin_info_file = open(pi_filepath, 'w+')
+        # lyr = str(layer)
+        job_info = ''
+        plugin_info = ''
+        job_path = os.environ['TEMP'] + '\\_job_submissions'
+        logger.debug('Checking job submission path...')
+        if not os.path.exists(job_path):
+            os.mkdir(job_path)
+        logger.debug('Creating job and plugin files...')
+        ji_filename = '%s_%s%s%s%s%s_jobInfo.job' % (base_name, d_flat, h, m, s, t)
+        ji_filepath = job_path + '\\' + ji_filename
+        pi_filename = '%s_%s%s%s%s%s_pluginInfo.job' % (base_name, d_flat, h, m, s, t)
+        pi_filepath = job_path + '\\' + pi_filename
+        job_info_file = open(ji_filepath, 'w+')
+        plugin_info_file = open(pi_filepath, 'w+')
 
-            # Create a Shotgun Version for Draft...
-            # This may still be mostly good.  I'll follow that path when I come back to it.
-            logger.info('Creating Shotgun Version for layer %s...' % lyr)
-            draft = self.create_draft_version(version_name=base_name, layer=lyr)
+        # Create a Shotgun Version for Draft...
+        # This may still be mostly good.  I'll follow that path when I come back to it.
+        logger.info('Creating Shotgun Version for %s...' % base_name)
+        draft = self.create_draft_version(version_name=base_name, timestamp=timestamp)
 
-            # Setup JobInfo
-            logger.debug('Collecting user, resolution, frames and pool data...')
-            user_name = os.environ['USERNAME']
+        # Setup JobInfo
+        logger.debug('Collecting user, resolution, frames and pool data...')
+        user_name = os.environ['USERNAME']
 
-            # The frames will need to be added if it's not in the command string already
-            frames = '%s-%s' % (start, end)
+        # The frames will need to be added if it's not in the command string already
+        frames = '%s-%s' % (start, end)
 
-            # Not sure if I'll need this yet.
-            version_name = '%s_%s' % (base_name, lyr)
+        # Not sure if I'll need this yet.
+        version_name = '%s_%s' % (base_name, timestamp)
 
-            # This may need to be set, but I'm not sure if I have anything in place yet.
-            resolutionWidth = int(self.ui.res_width.text())
-            resolutionHeight = int(self.ui.res_height.text())
-            resolution_scale = self.ui.res_scale.currentText()
-            resolution_scale = float(resolution_scale.strip('%'))
-            resolution_scale /= 100
-            resolutionHeight *= resolution_scale
-            resolutionWidth *= resolution_scale
+        # This may need to be set, but I'm not sure if I have anything in place yet.
+        # resolutionWidth = int(self.ui.res_width.text())
+        # resolutionHeight = int(self.ui.res_height.text())
+        # resolution_scale = self.ui.res_scale.currentText()
+        # resolution_scale = float(resolution_scale.strip('%'))
+        # resolution_scale /= 100
+        # resolutionHeight *= resolution_scale
+        # resolutionWidth *= resolution_scale
 
-            # The job_info file needs to match the requirements for a regular maya deadline submission.
-            logger.debug('Creating Job Info File...')
-            job_info += 'Name=%s - %s\n' % (base_name, lyr)
-            job_info += 'BatchName=%s\n' % base_name
-            job_info += 'UserName=%s\n' % user_name
-            job_info += 'Region=none\n'
-            job_info += 'Comment=Lazy Siouxsie Automatic Turntable\n'
-            job_info += 'Frames=%s\n' % frames
-            job_info += 'Pool=%s\n' % pool
-            job_info += 'Priority=65\n'
-            job_info += 'Blacklist=\n'
-            job_info += 'MachineLimit=5\n'
-            job_info += 'ScheduledStartDateTime=%s/%s/%s %s:%s\n' % (D, M, Y, h, m)
-            job_info += 'ExtraInfo0=%s\n' % task['task_name']
-            job_info += 'ExtraInfo1=%s\n' % project
-            job_info += 'ExtraInfo2=%s\n' % task['Asset']
-            job_info += 'ExtraInfo3=%s\n' % version_name
-            job_info += 'ExtraInfo4=Lazy Siouxsie Auto Turntable\n'
-            job_info += 'ExtraInfo5=%s\n' % user_name
-            # Draft Submission details
-            # TODO: Rework the Draft Submission
-            # The following needs to be added after the main submission.
-            # Essentially, Submit the job, find the version ID that it created, and then amend the Job Properties with
-            # the following.  For now, it will just create 2 different versions that don't entirely work right.
-            # small price to pay for the moment.
-            job_info += 'ExtraInfoKeyValue0=UserName=%s\n' % user_name
-            job_info += 'ExtraInfoKeyValue1=DraftFrameRate=24\n'
-            job_info += 'ExtraInfoKeyValue2=DraftExtension=mov\n'
-            job_info += 'ExtraInfoKeyValue3=DraftCodec=h264\n'
-            job_info += 'ExtraInfoKeyValue4=DraftQuality=100\n'
-            job_info += 'ExtraInfoKeyValue5=Description=Lazy Siouxsie Turntable Draft\n'
-            job_info += 'ExtraInfoKeyValue6=ProjectName=%s\n' % project
-            job_info += 'ExtraInfoKeyValue7=EntityName=%s\n' % task['Asset']
-            job_info += 'ExtraInfoKeyValue8=EntityType=Asset\n'
-            job_info += 'ExtraInfoKeyValue9=DraftType=movie\n'
-            job_info += 'ExtraInfoKeyValue10=VersionId=%s\n' % draft['id']
-            job_info += 'ExtraInfoKeyValue11=DraftColorSpaceIn=Identity\n'
-            job_info += 'ExtraInfoKeyValue12=DraftColorSpaceOut=Identity\n'
-            job_info += 'ExtraInfoKeyValue13=VersionName=%s\n' % version_name
-            job_info += 'ExtraInfoKeyValue14=TaskId=-1\n'
-            job_info += 'ExtraInfoKeyValue15=ProjectId=%s\n' % self.project_id
-            job_info += 'ExtraInfoKeyValue16=DraftUploadToShotgun=True\n'
-            job_info += 'ExtraInfoKeyValue17=TaskName=%s\n' % task['task_name']
-            job_info += 'ExtraInfoKeyValue18=DraftResolution=1\n'
-            job_info += 'ExtraInfoKeyValue19=EntityId=%s\n' % self.entity_id
-            job_info += 'ExtraInfoKeyValue20=SubmitQuickDraft=True\n'
-            # End Draft Submission details
-            job_info += 'OverrideTaskExtraInfoNames=False\n'
-            job_info += 'MachineName=%s\n' % platform.node()
-            job_info += 'Plugin=MayaCmd\n'
-            output_file = '%s_%s.####.%s' % (layer, base_name, ext)
-            output_directory = '%s%s/%s/v%03d' % (output_path, task['task_name'], layer, version)
-            # output_directory = output_directory.replace('/', '\\')
-            job_info += 'OutputDirectory0=%s\n' % output_directory
-            job_info += 'OutputFilename0=%s\n' % output_file
-            job_info += 'EventOptIns='
-            job_info_file.write(job_info)
-            job_info_file.close()
+        # The job_info file needs to match the requirements for a regular maya deadline submission.
+        logger.debug('Creating Job Info File...')
+        job_info += 'Name=%s - %s\n' % (base_name, timestamp)
+        job_info += 'UserName=%s\n' % user_name
+        job_info += 'Region=none\n'
+        job_info += 'Comment=Blaster is shooting Greedo...\n'
+        job_info += 'Group=%s\n' % group_name
+        job_info += 'Frames=%s\n' % frames
+        job_info += 'Pool=%s\n' % pool
+        job_info += 'Priority=65\n'
+        job_info += 'Blacklist=%s\n' % blacklist
+        job_info += 'MachineLimit=5\n'
+        job_info += 'ScheduledStartDateTime=%s/%s/%s %s:%s\n' % (D, M, Y, h, m)
+        job_info += 'Plugin=CommandLine\n'
 
-            # Setup PluginInfo
-            logger.debug('Creating PluginInfo file...')
-            plugin_info += 'Animation=1\n'
-            plugin_info += 'Renderer=%s\n' % renderer
-            plugin_info += 'UsingRenderLayers=1\n'
-            plugin_info += 'RenderLayer=\n'
-            plugin_info += 'RenderHalfFrames=0\n'
-            plugin_info += 'FrameNumberOffset=0\n'
-            plugin_info += 'LocalRendering=0\n'
-            plugin_info += 'StrictErrorChecking=0\n'
-            plugin_info += 'MaxProcessors=0\n'
-            plugin_info += 'Version=%s\n' % cmds.about(q=True, v=True)
-            plugin_info += 'UsingLegacyRenderLayers=0\n'
-            if cmds.about(q=True, w64=True):
-                win = '64bit'
-            else:
-                win = '32bit'
-            plugin_info += 'Build=%s\n' % win
-            plugin_info += 'ProjectPath=%s\n' % proj_root
-            plugin_info += 'CommandLineOptions=\n'
-            plugin_info += 'ImageWidth=%s\n' % resolutionWidth
-            plugin_info += 'ImageHeight=%s\n' % resolutionHeight
-            plugin_info += 'OutputFilePath=%s\n' % output_path
-            plugin_info += 'OutputFilePrefix=\n'
-            plugin_info += 'Camera=%s\n' % camera[0]
-            plugin_info += 'Camera0=\nCamera1=%s\n' % camera[0]
-            plugin_info += 'Camera2=front\nCamera3=persp\nCamera4=side\nCamera5=top\n'
-            plugin_info += 'SceneFile=%s\n' % file_name
-            plugin_info += 'IgnoreError211=1\n'
-            plugin_info += 'UseOnlyCommandLineOptions=False\n'
-            plugin_info_file.write(plugin_info)
-            plugin_info_file.close()
+        # The following are Version settings.
+        job_info += 'ExtraInfo0=%s\n' % template_settings['task_name']
+        job_info += 'ExtraInfo1=%s\n' % project
+        job_info += 'ExtraInfo2=%s\n' % template_settings[self.entity_type]
+        job_info += 'ExtraInfo3=%s\n' % version_name
+        job_info += 'ExtraInfo4=Blaster File\n'
+        job_info += 'ExtraInfo5=%s\n' % user_name
+        # Draft Submission details
+        # TODO: Rework the Draft Submission
+        # The following needs to be added after the main submission.
+        # Essentially, Submit the job, find the version ID that it created, and then amend the Job Properties with
+        # the following.  For now, it will just create 2 different versions that don't entirely work right.
+        # small price to pay for the moment.
+        job_info += 'ExtraInfoKeyValue0=UserName=%s\n' % user_name
+        job_info += 'ExtraInfoKeyValue1=DraftFrameRate=24\n'
+        job_info += 'ExtraInfoKeyValue2=DraftExtension=mov\n'
+        job_info += 'ExtraInfoKeyValue3=DraftCodec=h264\n'
+        job_info += 'ExtraInfoKeyValue4=DraftQuality=100\n'
+        job_info += 'ExtraInfoKeyValue5=Description=Blaster playblast file\n'
+        job_info += 'ExtraInfoKeyValue6=ProjectName=%s\n' % project
+        job_info += 'ExtraInfoKeyValue7=EntityName=%s\n' % template_settings[self.entity_type]
+        job_info += 'ExtraInfoKeyValue8=EntityType=Asset\n'
+        job_info += 'ExtraInfoKeyValue9=DraftType=movie\n'
+        job_info += 'ExtraInfoKeyValue10=VersionId=%s\n' % draft['id']
+        job_info += 'ExtraInfoKeyValue11=DraftColorSpaceIn=Identity\n'
+        job_info += 'ExtraInfoKeyValue12=DraftColorSpaceOut=Identity\n'
+        job_info += 'ExtraInfoKeyValue13=VersionName=%s\n' % version_name
+        job_info += 'ExtraInfoKeyValue14=TaskId=-1\n'
+        job_info += 'ExtraInfoKeyValue15=ProjectId=%s\n' % self.project_id
+        job_info += 'ExtraInfoKeyValue16=DraftUploadToShotgun=True\n'
+        job_info += 'ExtraInfoKeyValue17=TaskName=%s\n' % template_settings['task_name']
+        job_info += 'ExtraInfoKeyValue18=DraftResolution=1\n'
+        job_info += 'ExtraInfoKeyValue19=EntityId=%s\n' % self.id
+        job_info += 'ExtraInfoKeyValue20=SubmitQuickDraft=True\n'
+        # End Draft Submission details
+        job_info += 'OverrideTaskExtraInfoNames=False\n'
+        job_info += 'MachineName=%s\n' % platform.node()
+        job_info += 'Plugin=MayaCmd\n'
+        output_file = '%s.####.%s' % (base_name, self.ui.render_formats.currentText())
+        # output_directory = '%s%s/%s/v%03d' % (output_path, template_settings['task_name'], layer, version)
+        output_directory = os.path.dirname(output_path)
+        # output_directory = output_directory.replace('/', '\\')
+        job_info += 'OutputDirectory0=%s\n' % output_directory
+        job_info += 'OutputFilename0=%s\n' % output_file
+        job_info += 'EventOptIns='
+        job_info_file.write(job_info)
+        job_info_file.close()
 
-            degree = float(degree_slice)
-            frame_range = float(end - start + 1)
-            slice_mult = (frame_range/2) / 360.00
-            slice_frames = int(slice_mult * degree)
-            slice_frame = 0
-            try:
-                self.ui.blaster_progress.setValue(82)
-                self.ui.progress_label.setText('Submitting the Job to Deadline...')
-                logger.info('Submitting the job to Deadline...')
-                submitted = self.dl.Jobs.SubmitJobFiles(ji_filepath, pi_filepath, idOnly=True)
-                # TODO: The following example is the basic idea behind submitting the python file:
-                # submitted = self.dl.Jobs.SubmitJobFiles(ji_filepath, pi_filepath, aux=[pythonFile], idOnly=True)
-                # How that's fully implemented remains to be figured out.
+        # Setup PluginInfo
+        logger.debug('Creating PluginInfo file...')
+        plugin_info += 'Executable=%s\n' % executable
+        plugin_info += 'Arguments=%s\n' % string
+        plugin_info += 'StartupDirectory=\n'
+        plugin_info += 'ShellExecute=False\n'
+        plugin_info += 'Shell=default\n'
 
-                # Setup slice conditions here, to then suspend specific job tasks.
-                if submitted and degree != 0:
-                    self.ui.blaster_progress.setValue(83)
-                    self.ui.progress_label.setText('Parsing Slices...')
-                    logger.info('Parsing slices....')
-                    job_id = submitted['_id']
-                    tasks = self.dl.Tasks.GetJobTasks(job_id)
-                    task_count = len(tasks)
-                    task_percent = 12.0 / float(task_count)
-                    percent = 84.0
-                    task_list = []
-                    for tsk in tasks['Tasks']:
-                        task_id = int(tsk['TaskID'])
-                        percent += task_percent
-                        if task_id != slice_frame:
-                            task_list.append(task_id)
-                        else:
-                            self.ui.blaster_progress.setValue(int(percent))
-                            self.ui.progress_label.setText('Setting %i Frame to Render...' % task_id)
-                            logger.debug('Rendering frame %s' % task_id)
-                            slice_frame += slice_frames
-                    if task_list:
-                        logger.debug('Suspending non-sliced tasks...')
-                        self.dl.Tasks.SuspendJobTasks(jobId=job_id, taskIds=task_list)
-            except Exception, e:
-                submitted = False
-                logger.error('JOB SUBMISSION FAILED! %s' % e)
-            t += 1
+        if cmds.about(q=True, w64=True):
+            win = '64bit'
+        else:
+            win = '32bit'
+        # plugin_info += 'Build=%s\n' % win
+        # plugin_info += 'ProjectPath=%s\n' % proj_root
+        # plugin_info += 'CommandLineOptions=\n'
+        # plugin_info += 'ImageWidth=%s\n' % resolutionWidth
+        # plugin_info += 'ImageHeight=%s\n' % resolutionHeight
+        # plugin_info += 'OutputFilePath=%s\n' % output_path
+        # plugin_info += 'OutputFilePrefix=\n'
+        # plugin_info += 'Camera=%s\n' % camera[0]
+        # plugin_info += 'Camera0=\nCamera1=%s\n' % camera[0]
+        # plugin_info += 'Camera2=front\nCamera3=persp\nCamera4=side\nCamera5=top\n'
+        # plugin_info += 'SceneFile=%s\n' % file_name
+        # plugin_info += 'IgnoreError211=1\n'
+        # plugin_info += 'UseOnlyCommandLineOptions=False\n'
+        plugin_info_file.write(plugin_info)
+        plugin_info_file.close()
 
-        
+        # degree = float(degree_slice)
+        # frame_range = float(end - start + 1)
+        # slice_mult = (frame_range/2) / 360.00
+        # slice_frames = int(slice_mult * degree)
+        # slice_frame = 0
+        try:
+            self.ui.blaster_progress.setValue(82)
+            self.ui.progress_label.setText('Submitting the Job to Deadline...')
+            logger.info('Submitting the job to Deadline...')
+            submitted = self.dl.Jobs.SubmitJobFiles(ji_filepath, pi_filepath, idOnly=True)
+            # TODO: The following example is the basic idea behind submitting the python file:
+            # submitted = self.dl.Jobs.SubmitJobFiles(ji_filepath, pi_filepath, aux=[pythonFile], idOnly=True)
+            # How that's fully implemented remains to be figured out.
+
+        except Exception, e:
+            submitted = False
+            logger.error('JOB SUBMISSION FAILED! %s' % e)
+        t += 1
+
     def farm_blast(self, farm_string=None, viewport=None):
         if farm_string:
             # Farm Blast Deadline Setup
@@ -991,6 +1025,7 @@ class AppDialog(QtGui.QWidget):
             self.ui.progress_label.setText('Blasting to the farm...')
             self.ui.blaster_progress.setValue(65)
             logger.info('Blasting to the farm...')
+            logger.info('farm string: %s' % farm_string)
             self.submit_to_deadline(string=farm_string)
 
     def save_to_pipeline(self):
@@ -1039,6 +1074,9 @@ class AppDialog(QtGui.QWidget):
             template = None
         if template:
             settings = template.get_fields(rel_path)
+        #
+        # template_settings['timestamp'] = timestamp
+        # template_settings['file_ext'] = self.ui.render_formats.currentText()
         # TODO: This, apparently wasn't finished, and currently doesn't return anything.  Damn...
         print settings
         return final_path

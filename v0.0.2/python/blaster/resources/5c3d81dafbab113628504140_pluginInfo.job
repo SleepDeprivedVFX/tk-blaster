@@ -1,0 +1,5 @@
+Executable=C:\Program Files\Autodesk\Maya2017\bin\mayabatch.exe
+Arguments=modelEditor -e -da "smoothShaded" -ao 0 modelPanel4;modelEditor -e -shadows 1 modelPanel4;modelEditor -e -displayTextures 1 modelPanel4;modelEditor -e -udm 0 modelPanel4;modelEditor -e -fogging 0 modelPanel4;modelEditor -e -displayLights "all" modelPanel4;setAttr "hardwareRenderingGlobals.motionBlurEnable" 1;setAttr "hardwareRenderingGlobals.ssaoEnable" 1;setAttr "hardwareRenderingGlobals.ssaoAmount" 3;setAttr "hardwareRenderingGlobals.multiSampleEnable" 1;playblast -format image sqt=0 -cc 1 -v 1 -st 1001 -et 1120 -orn 0 -os 1 -fp 4-p 100 -qlt 70 -c "jpg";
+StartupDirectory=
+ShellExecute=False
+Shell=default
